@@ -1,0 +1,1 @@
+cmd_/home/sylar/imx6ull/embedDriver/les02/forlinx_led.o := arm-poky-linux-gnueabi-ld -EL    -r -o /home/sylar/imx6ull/embedDriver/les02/forlinx_led.o /home/sylar/imx6ull/embedDriver/les02/leddrv.o /home/sylar/imx6ull/embedDriver/les02/board_100ask_imx6ull.o 

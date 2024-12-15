@@ -7,7 +7,7 @@
 # 注意: 不同的开发板不同的编译器上述3个环境变量不一定相同,
 #       请参考各开发板的高级用户使用手册
 
-KERN_DIR = /home/book/100ask_imx6ull-sdk/Linux-4.9.88
+KERN_DIR = /home/sylar/workspace/linux-4.1.15
 
 all:
 	make -C $(KERN_DIR) M=`pwd` modules 
@@ -23,5 +23,5 @@ clean:
 # obj-m += ab.o
 
 # leddrv.c board_100ask_imx6ull.c 编译成 100ask_led.ko
-100ask_led-y := leddrv.o board_100ask_imx6ull.o
-obj-m	+= 100ask_led.o
+forlinx_led-y := leddrv.o board_100ask_imx6ull.o
+obj-m	+= forlinx_led.o

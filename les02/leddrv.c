@@ -35,12 +35,12 @@ int led_drv_close(struct inode *inode, struct file *file)
     printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 	return 0;
 }
-ssize_t (*read)(struct file *file, char __user *buf, size_t count, loff_t *pos)
+ssize_t led_drv_read (struct file *file, char __user *buf, size_t count, loff_t *pos)
 {
     printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 	return 0;
 }
-ssize_t leddrv_write(struct file *file, const char __user *buf, size_t count, loff_t *pos)
+ssize_t led_drv_write(struct file *file, const char __user *buf, size_t count, loff_t *pos)
 {
     int err;
     char status ;
@@ -49,21 +49,21 @@ ssize_t leddrv_write(struct file *file, const char __user *buf, size_t count, lo
 
     printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
     err = copy_from_user(&status, buf, 1);
-    p_led_opr->ctl(0,status);
+    p_led_opr->ctl(minor,status);
     return 0;
 
 }
 static struct file_operations led_drv = {
     .owner  = THIS_MODULE , 
     .open   = led_drv_open,
-    .read   = ,
-    .write  = ,
+    .read   = led_drv_read,
+    .write  = led_drv_write,
     .release = led_drv_close, 
 };
 
-static void __init led_init(void)
+static int __init led_init(void)
 {
-    int err = ;
+    int err = 0;
     int i ;
 
     major = register_chrdev(0, "forlinx_led", &led_drv);
@@ -75,23 +75,25 @@ static void __init led_init(void)
         printk("%s %s line %d, err: %d\n", __FILE__, __FUNCTION__, __LINE__, err);
         goto err4;
     }
-    p_led_opr = get_board_led_opr(void);
-    for(int i = 0 ; i <p_led_opr->num; i++)
+    p_led_opr = get_board_led_opr();
+    for(i = 0 ; i <p_led_opr->num; i++)
     {
-        device_create(led_class, NULL , MKDEV(major, i), NULL, "forlinx_led%d\n",i);
+        device_create(led_class, NULL , MKDEV(major, i), NULL, "forlinx_led%d",i);
     }
+    
     return 0;
-
 err4:
     unregister_chrdev(major, "forlinx_led");
-    return -1;
+    return 0;
+
+    
 }
 static void __exit led_exit(void)
 {
     int i ;
     printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 
-    for(int = 0 ; i < p_led_opr.num; i++)
+    for(i = 0 ; i < p_led_opr->num; i++)
     {
         device_destroy(led_class, MKDEV(major, i));
 

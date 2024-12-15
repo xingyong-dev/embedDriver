@@ -27,12 +27,12 @@ static unsigned int r_CCGR1_GPIO1_ByteLen = 0x04;
 static unsigned int r_GPIO1_BASE = 0x209C000;
 static unsigned int r_GPIO1_DR   = 0x00;
 static unsigned int r_GPIO1_GDIR = 0x04;
-static unsigned int r_GPIO1_PSR  = 0x08;
-static unsigned int r_GPIO1_ICR1  = 0x0C;
-static unsigned int r_GPIO1_ICR2  = 0x10;
-static unsigned int r_GPIO1_IMR   = 0x14;
-static unsigned int r_GPIO1_ISR   = 0x18;
-static unsigned int r_GPIO1_EDGE_SEL  = 0x1C;
+// static unsigned int r_GPIO1_PSR  = 0x08;
+// static unsigned int r_GPIO1_ICR1  = 0x0C;
+// static unsigned int r_GPIO1_ICR2  = 0x10;
+// static unsigned int r_GPIO1_IMR   = 0x14;
+// static unsigned int r_GPIO1_ISR   = 0x18;
+// static unsigned int r_GPIO1_EDGE_SEL  = 0x1C;
 
 static int board_demo_led_init(int which)
 {
@@ -79,7 +79,7 @@ static int board_demo_led_ctl(int which, char status)
     {
         if(status == 1)
         {
-            *GPIO1_DR &= (1<<10);
+            *GPIO1_DR &= ~(1<<10);
         }else{
             *GPIO1_DR |= (1<<10);
         }
