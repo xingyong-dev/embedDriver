@@ -26,7 +26,9 @@ struct led_operations *p_led_opr;
 #define MIN(a, b) (a > b ? b : a)
 int led_drv_open(struct inode *inode, struct file *file)
 {
+    
     int minor = iminor(inode);
+    printk("%s %s line %d, minor: %d\n", __FILE__, __FUNCTION__, __LINE__, minor);
     p_led_opr->init(minor);
     return 0;
 }
@@ -47,7 +49,7 @@ ssize_t led_drv_write(struct file *file, const char __user *buf, size_t count, l
     struct inode *inode = file_inode(file);
     int minor = iminor(inode);
 
-    printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
+    printk("%s %s line %d, minor: %d\n", __FILE__, __FUNCTION__, __LINE__, minor);
     err = copy_from_user(&status, buf, 1);
     p_led_opr->ctl(minor,status);
     return 0;
@@ -76,7 +78,7 @@ static int __init led_init(void)
         goto err4;
     }
     p_led_opr = get_board_led_opr();
-    for(i = 0 ; i <p_led_opr->num; i++)
+    for(i = 0 ; i < p_led_opr->num; i++)
     {
         device_create(led_class, NULL , MKDEV(major, i), NULL, "forlinx_led%d",i);
     }

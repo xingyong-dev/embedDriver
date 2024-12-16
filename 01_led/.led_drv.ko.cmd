@@ -1,0 +1,1 @@
+cmd_/home/sylar/imx6ull/embedDriver/01_led/led_drv.ko := arm-poky-linux-gnueabi-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/sylar/imx6ull/embedDriver/01_led/led_drv.ko /home/sylar/imx6ull/embedDriver/01_led/led_drv.o /home/sylar/imx6ull/embedDriver/01_led/led_drv.mod.o

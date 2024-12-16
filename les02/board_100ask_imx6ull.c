@@ -37,10 +37,13 @@ static unsigned int r_GPIO1_GDIR = 0x04;
 static int board_demo_led_init(int which)
 {
     unsigned int val = 0;
+    printk("%s %s line %d, which: %d\n", __FILE__, __FUNCTION__, __LINE__, which);
     if(which == 0)
     {
         if(!CCM_CCGR1 )
         {
+            printk("%s %s line %d, CCM_CCGR1: %d\n", __FILE__, __FUNCTION__, __LINE__, 0);
+
             CCM_CCGR1                       = ioremap((r_CCGR1_ADDR | r_CCGR1_GPIO1_ADDR), r_CCGR1_GPIO1_ByteLen);
 
             IOMUXC_SW_MUX_CTL_PAD_JTAG_MOD  = ioremap(0x20E0044, 4);
@@ -69,12 +72,13 @@ static int board_demo_led_init(int which)
         val |= 5;
         *IOMUXC_SW_MUX_CTL_PAD_JTAG_MOD = val;
 
-        *GPIO1_DR |= (1 << 10);
+        *GPIO1_GDIR |= (1 << 10);
     }
     return 0;
 }
 static int board_demo_led_ctl(int which, char status)
 {
+    printk("%s %s line %d, which: %d, status:%d\n", __FILE__, __FUNCTION__, __LINE__, which,status);
     if(which == 0)
     {
         if(status == 1)
